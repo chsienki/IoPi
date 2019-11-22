@@ -3,7 +3,7 @@
 function read-config
 {
 	local key=$1
-	cat /boot/config.txt | awk -F= -vOFS== '$1=="'$key'" { $1=""; print substr($0,2) }'
+	cat /boot/iopi-config.txt | awk -F= -vOFS== '$1=="'$key'" { $1=""; print substr($0,2) }'
 	
 	#-f=  					split on '='
 	#-vOFS== 				use '=' as output separator
@@ -15,20 +15,21 @@ function read-config
 function get-bootstrap
 {
 	local bootstrap_url=$(read-config bootstrap_url)
-	local token=$(read-config github_pat)
 	local output=$1
-	curl --header "Authorization: token $token" \
-		 --header "Accept: application/vnd.github.v3.raw" \
+	curl --header "Accept: application/vnd.github.v3.raw" \
 		 --location \
-		 $1
+		 -o $output \
 		 $bootstrap_url
 }
 
 function run
 {
-	local bootstrap_file="iopi-bootstrap-download.sh"
+	#TODO: put these in var, not the root dir!
+	local bootstrap_file="iopi-downloaded-script.sh"
+	local logfile="downloaded-output.log"
 	get-bootstrap $bootstrap_file
 	chmod +x $bootstrap_file
-	. $bootstrap_file
+	
+	. $bootstrap_file >| $logfile
 }
 run

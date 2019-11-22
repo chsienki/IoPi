@@ -1,0 +1,11 @@
+[Unit]
+Description=IoPI Startup Script 
+Documentation=https://github.com/chsienki/IoPI
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/iopi/startup.sh
+Type=oneshot
+
+[Install] 
+WantedBy=multi-user.target

@@ -1,0 +1,1 @@
+root=/dev/sda1 panic=1 rootfstype=vfat rw init=/bootstrapper/bootstrap.sh
