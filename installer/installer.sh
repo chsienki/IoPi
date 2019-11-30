@@ -32,4 +32,5 @@ fi
 cp "$new_cmdline" "$exist_cmdline"
 cp "$bootstrapper_folder" "$install_location/." -r
 cp "$service_folder" "$install_location/." -r
-cp "$script_root/../iopi-config.txt" "$install_location/."
+cp "$script_root/../iopi-config.txt" "$install_location/." #TODO only copy if these exist
+cp "$script_root/../iopi-startup.sh" "$install_location/."

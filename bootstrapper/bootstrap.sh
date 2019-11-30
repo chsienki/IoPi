@@ -9,8 +9,9 @@ $busy mount -t devtmpfs none "/dev"
 $busy mount -o rw -t ext4 "/dev/sda2" "/mnt"
 
 # at this point, we can do whatever we want to! 
-$busy mkdir -p "/mnt/usr/local/bin/iopi/"
-$busy cp "/service/startup.sh" "/mnt/usr/local/bin/iopi/" #TODO: we should use /opt not /usr/local
+$busy mkdir -p "/mnt/opt/iopi/" "/mnt/opt/iopi/bin" "/mnt/opt/iopi/var"
+$busy cp "/service/startup.sh" "/mnt/opt/iopi/bin" 
+$busy cp "/service/lib.sh" "/mnt/opt/iopi/bin"
 $busy cp "/service/iopi.service" "/mnt/etc/systemd/system"
 $busy ln -s "/mnt/etc/systemd/system/iopi.service" "/mnt/etc/systemd/system/multi-user.target.wants"
 #$busy sh

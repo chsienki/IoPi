@@ -1,35 +1,21 @@
 #!/bin/bash
 
-function read-config
-{
-	local key=$1
-	cat /boot/iopi-config.txt | awk -F= -vOFS== '$1=="'$key'" { $1=""; print substr($0,2) }'
-	
-	#-f=  					split on '='
-	#-vOFS== 				use '=' as output separator
-	#$1=='$key' 			the line that matches first field equal to $key
-	#{ $1 = ""; 			set the key to empty
-	#print substr($0, 2)	print out the whole match ($0), starting at character 2 (skips the leading '=')
-}
+# bring in the lib
+. "/opt/iopi/bin/lib.sh"
 
-function get-bootstrap
-{
-	local bootstrap_url=$(read-config bootstrap_url)
-	local output=$1
-	curl --header "Accept: application/vnd.github.v3.raw" \
-		 --location \
-		 -o $output \
-		 $bootstrap_url
-}
+download_file="$iopi_var/iopi-downloaded-script.sh"
+logfile="$iopi_var/output.log"
+local_file="/boot/iopi-startup.sh"
+startupfile=
 
-function run
-{
-	#TODO: put these in var, not the root dir!
-	local bootstrap_file="iopi-downloaded-script.sh"
-	local logfile="downloaded-output.log"
-	get-bootstrap $bootstrap_file
-	chmod +x $bootstrap_file
-	
-	. $bootstrap_file >| $logfile
-}
-run
+if [ -f "$local_file" ]; then
+	echo "Using local startup file"
+	startupfile=$local_file
+else
+	bootstrap_url=$(read-config bootstrap_url)
+	download-file $bootstrap_url $download_file
+	startupfile=$download_file
+fi
+
+chmod +x "$startupfile"
+. $startupfile

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+stty intr ^]
+
 qemu-img convert -f raw -O qcow2 /ramdisk/raspbian-buster-lite.img /home/chris/Desktop/raspbian-buster-lite.qcow
 guestmount  -a /home/chris/Desktop/raspbian-buster-lite.qcow -m /dev/sda1 /mnt
 /home/chris/Desktop/IoPI/installer/installer.sh /mnt
@@ -32,3 +34,6 @@ qemu-system-arm \
 -M versatilepb \
 -no-reboot \
 -serial stdio 
+
+# sudo journalctl -u iopi
+# sudo systemctl status iopi

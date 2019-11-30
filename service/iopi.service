@@ -4,7 +4,7 @@ Documentation=https://github.com/chsienki/IoPI
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/iopi/startup.sh
+ExecStart=/opt/iopi/bin/startup.sh
 Type=oneshot
 
 [Install] 
